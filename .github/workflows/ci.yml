@@ -18,13 +18,14 @@ jobs:
       AIVIDEO_WORKSPACE: ${{ github.workspace }}\workspace
       PIP_DISABLE_PIP_VERSION_CHECK: "1"
       PIP_NO_INPUT: "1"
+      PYTHONUTF8: "1"
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 
@@ -37,7 +38,7 @@ jobs:
 
       - name: Install skill runtime
         shell: pwsh
-        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1 -CpuOnly
 
       - name: Compile Python sources
         shell: pwsh

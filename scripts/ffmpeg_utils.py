@@ -14,6 +14,20 @@ DEFAULT_WORKSPACE = Path(r"F:\workspace")
 WORKSPACE = Path(os.environ.get("AIVIDEO_WORKSPACE", DEFAULT_WORKSPACE)).resolve()
 
 
+def _configure_utf8_stdio() -> None:
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if not reconfigure:
+            continue
+        try:
+            reconfigure(encoding="utf-8", errors="replace")
+        except (OSError, ValueError):
+            pass
+
+
+_configure_utf8_stdio()
+
+
 class MediaError(RuntimeError):
     pass
 

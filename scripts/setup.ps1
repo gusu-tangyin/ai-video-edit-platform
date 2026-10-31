@@ -1,6 +1,7 @@
 param(
     [switch]$WithRembg,
-    [switch]$Force
+    [switch]$Force,
+    [switch]$CpuOnly
 )
 
 $ErrorActionPreference = 'Stop'
@@ -15,6 +16,7 @@ $Workspace = if ($env:AIVIDEO_WORKSPACE) {
     $SkillRoot
 }
 $env:AIVIDEO_WORKSPACE = $Workspace
+$env:PYTHONUTF8 = '1'
 $CacheRoot = Join-Path $Workspace 'runtime\cache'
 $env:PIP_CACHE_DIR = Join-Path $CacheRoot 'pip'
 $env:TEMP = Join-Path $CacheRoot 'temp'
@@ -60,12 +62,19 @@ if ($LASTEXITCODE -ne 0) {
     throw "Failed to install core video-edit packages."
 }
 
-& $Python -m pip install --disable-pip-version-check --no-input 'onnxruntime-directml>=1.20'
-if ($LASTEXITCODE -ne 0) {
-    Write-Warning 'DirectML runtime failed; trying standard CPU onnxruntime.'
+if ($CpuOnly) {
     & $Python -m pip install --disable-pip-version-check --no-input 'onnxruntime>=1.20'
     if ($LASTEXITCODE -ne 0) {
-        throw "Failed to install onnxruntime."
+        throw "Failed to install CPU onnxruntime."
+    }
+} else {
+    & $Python -m pip install --disable-pip-version-check --no-input 'onnxruntime-directml>=1.20'
+    if ($LASTEXITCODE -ne 0) {
+        Write-Warning 'DirectML runtime failed; trying standard CPU onnxruntime.'
+        & $Python -m pip install --disable-pip-version-check --no-input 'onnxruntime>=1.20'
+        if ($LASTEXITCODE -ne 0) {
+            throw "Failed to install onnxruntime."
+        }
     }
 }
 
