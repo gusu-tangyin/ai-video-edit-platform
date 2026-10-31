@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI 视频剪辑平台"
+  short_description: "模块化换脸、头像、对口型与背景替换"
+  default_prompt: "使用 $ai-video-edit-platform 检查本机后端并处理这段已获授权的视频。"
