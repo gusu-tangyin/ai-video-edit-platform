@@ -1,6 +1,6 @@
 # AI 视频剪辑平台
 
-[![Windows CI](https://github.com/gusu-tangyin/-/actions/workflows/ci.yml/badge.svg)](https://github.com/gusu-tangyin/-/actions/workflows/ci.yml)
+[![Windows CI](https://github.com/gusu-tangyin/ai-video-edit-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/gusu-tangyin/ai-video-edit-platform/actions/workflows/ci.yml)
 
 `proj_004_skill_AI视频剪辑平台` 是一个本地、模块化的 Codex 视频技能工程。它把
 视频探测、背景替换、换脸、头像替换、Wav2Lip 对口型和多步骤流水线统一到一个 CLI，
@@ -85,3 +85,11 @@ F:\workspace\runtime\python\base\python.exe .\scripts\smoke_test.py
 .\runtime\.venv\Scripts\python.exe .\scripts\smoke_pipeline.py
 .\runtime\.venv\Scripts\python.exe .\scripts\smoke_unicode.py
 ```
+
+## 许可证
+
+本项目原创源码和文档使用 [MIT License](LICENSE)。
+
+模型权重、外部 Wav2Lip 代码与权重、FFmpeg、Python 依赖以及用户素材
+不属于本项目的 MIT 授权范围。使用或分发第三方模型前，必须单独核对其
+上游许可证。详见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。

@@ -49,6 +49,7 @@ powershell -ExecutionPolicy Bypass -File scripts\aivideo.ps1 run-pipeline --conf
 
 - Face, avatar, and lip-sync processing must be limited to media the user owns or is authorized to modify. Require `--confirm-authorized`; do not infer consent from a generic editing request.
 - Do not install or download model weights implicitly. Report missing backends and point to [references/backends.md](references/backends.md).
+- The repository's MIT License covers only original project code and documentation. Third-party model weights and external software retain their own licenses; never describe them as MIT-licensed.
 - Default model paths are machine configuration, not part of the skill package. Use `AIVIDEO_MODEL_DIR` or command options.
 - Preserve source audio unless the selected operation explicitly replaces it. Lip sync must use the requested voice track, not silence.
 - If a video has no audio, do not claim audio was preserved. If a face is not detected in a sampled frame, report that frame and do not silently substitute another identity.

@@ -10,6 +10,10 @@ The face-swap backend uses three model files:
 
 Point `AIVIDEO_MODEL_DIR` at their directory. The current machine already has compatible copies in `F:\视频\.tools\models\insightface`. Model files are not copied or redistributed with this skill. Check the applicable model license before commercial use.
 
+The repository's MIT License does not apply to these model files. See
+[THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md) for the project's license
+boundary.
+
 ## Wav2Lip
 
 Provide a Wav2Lip checkout containing `inference.py` and a compatible checkpoint such as `wav2lip_gan.pth`. The wrapper invokes that checkout in a separate Python process because Wav2Lip dependencies commonly conflict with the main skill runtime.
@@ -25,6 +29,10 @@ F:\workspace\models\wav2lip_gan.pth
 ```
 
 Do not download weights without explicit user approval. Verify the output's lip movement, frame count, audio duration, and drift on representative clips.
+
+Wav2Lip source code and checkpoints are external third-party materials and are
+not licensed by this repository. Their upstream terms control their use and
+redistribution.
 
 ## Background replacement
 
