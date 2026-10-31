@@ -22,6 +22,8 @@ if __name__ == "__main__":
         (
             result.get("ffmpeg"),
             result.get("ffprobe"),
+            result["dependencies"].get("cv2"),
+            result["dependencies"].get("numpy"),
             result["backends"].get("background_chroma"),
         )
     )

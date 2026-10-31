@@ -7,6 +7,19 @@ $ErrorActionPreference = 'Stop'
 $SkillRoot = Split-Path -Parent $PSScriptRoot
 $VenvRoot = Join-Path $SkillRoot 'runtime\.venv'
 $Python = Join-Path $VenvRoot 'Scripts\python.exe'
+$Workspace = if ($env:AIVIDEO_WORKSPACE) {
+    [IO.Path]::GetFullPath($env:AIVIDEO_WORKSPACE)
+} elseif (Test-Path -LiteralPath 'F:\workspace') {
+    'F:\workspace'
+} else {
+    $SkillRoot
+}
+$env:AIVIDEO_WORKSPACE = $Workspace
+$CacheRoot = Join-Path $Workspace 'runtime\cache'
+$env:PIP_CACHE_DIR = Join-Path $CacheRoot 'pip'
+$env:TEMP = Join-Path $CacheRoot 'temp'
+$env:TMP = $env:TEMP
+New-Item -ItemType Directory -Force -Path $env:PIP_CACHE_DIR, $env:TEMP | Out-Null
 $BasePython = if ($env:AIVIDEO_BASE_PYTHON) {
     $env:AIVIDEO_BASE_PYTHON
 } elseif (Test-Path -LiteralPath 'F:\workspace\runtime\python\base\python.exe') {
@@ -14,7 +27,6 @@ $BasePython = if ($env:AIVIDEO_BASE_PYTHON) {
 } else {
     (Get-Command python -ErrorAction SilentlyContinue | Select-Object -First 1).Source
 }
-$env:PIP_CACHE_DIR = 'F:\workspace\runtime\cache\pip'
 
 if (-not $BasePython -or -not (Test-Path -LiteralPath $BasePython)) {
     throw "Base Python not found. Set AIVIDEO_BASE_PYTHON to python.exe."

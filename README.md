@@ -1,5 +1,7 @@
 # AI 视频剪辑平台
 
+[![Windows CI](https://github.com/gusu-tangyin/-/actions/workflows/ci.yml/badge.svg)](https://github.com/gusu-tangyin/-/actions/workflows/ci.yml)
+
 `proj_004_skill_AI视频剪辑平台` 是一个本地、模块化的 Codex 视频技能工程。它把
 视频探测、背景替换、换脸、头像替换、Wav2Lip 对口型和多步骤流水线统一到一个 CLI，
 并把中间结果与运行状态保存在固定工作区内。

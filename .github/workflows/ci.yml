@@ -1,0 +1,70 @@
+name: Windows CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      AIVIDEO_WORKSPACE: ${{ github.workspace }}\workspace
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+      PIP_NO_INPUT: "1"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install FFmpeg
+        shell: pwsh
+        run: |
+          if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
+            choco install ffmpeg --yes --no-progress
+          }
+
+      - name: Install skill runtime
+        shell: pwsh
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup.ps1
+
+      - name: Compile Python sources
+        shell: pwsh
+        run: |
+          .\runtime\.venv\Scripts\python.exe -m py_compile `
+            .\scripts\aivideo.py `
+            .\scripts\ffmpeg_utils.py `
+            .\scripts\background_replace.py `
+            .\scripts\face_swap.py `
+            .\scripts\lip_sync.py `
+            .\scripts\smoke_test.py `
+            .\scripts\smoke_pipeline.py `
+            .\scripts\smoke_unicode.py `
+            .\scripts\check_runtime.py
+
+      - name: Verify runtime readiness
+        shell: pwsh
+        run: .\runtime\.venv\Scripts\python.exe .\scripts\check_runtime.py
+
+      - name: Run background smoke test
+        shell: pwsh
+        run: .\runtime\.venv\Scripts\python.exe .\scripts\smoke_test.py
+
+      - name: Run pipeline smoke test
+        shell: pwsh
+        run: .\runtime\.venv\Scripts\python.exe .\scripts\smoke_pipeline.py
+
+      - name: Run Unicode path smoke test
+        shell: pwsh
+        run: .\runtime\.venv\Scripts\python.exe .\scripts\smoke_unicode.py

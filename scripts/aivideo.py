@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import argparse
-import importlib.util
+import importlib
 import json
 import os
 import sys
@@ -23,7 +23,11 @@ from ffmpeg_utils import (
 
 
 def _module(name: str) -> bool:
-    return importlib.util.find_spec(name) is not None
+    try:
+        importlib.import_module(name)
+    except Exception:
+        return False
+    return True
 
 
 def doctor() -> dict[str, Any]:
